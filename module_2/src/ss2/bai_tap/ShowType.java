@@ -53,10 +53,10 @@ public class ShowType {
                     }
                     break;
                 case 0:
-                    System.out.println("Exit");
+                    System.exit(0);
                     break;
                 default:
-                    System.out.println("Invalid choice");
+                    System.out.println("No choice");
             }
         }
     }
