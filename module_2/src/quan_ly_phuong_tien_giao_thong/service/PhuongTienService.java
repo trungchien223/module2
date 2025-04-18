@@ -4,11 +4,13 @@ import quan_ly_phuong_tien_giao_thong.model.PhuongTien;
 import quan_ly_phuong_tien_giao_thong.repository.IPhuongTienRepository;
 import quan_ly_phuong_tien_giao_thong.repository.PhuongTienRepository;
 
+import java.util.ArrayList;
+
 public class PhuongTienService implements IPhuongTienService {
     private final IPhuongTienRepository repository = new PhuongTienRepository();
 
     @Override
-    public PhuongTien[] findAll() {
+    public ArrayList<PhuongTien> findAll() {
         return repository.findAll();
     }
 

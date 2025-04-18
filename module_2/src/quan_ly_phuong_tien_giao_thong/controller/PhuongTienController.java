@@ -8,6 +8,7 @@ import quan_ly_phuong_tien_giao_thong.service.IPhuongTienService;
 import quan_ly_phuong_tien_giao_thong.service.PhuongTienService;
 import quan_ly_phuong_tien_giao_thong.view.View;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PhuongTienController {
@@ -91,7 +92,7 @@ public class PhuongTienController {
     }
 
     private static void display() {
-        PhuongTien[] phuongTiens = service.findAll();
+        ArrayList<PhuongTien> phuongTiens = service.findAll();
         while (true) {
             System.out.println("1. Hien thi xe tai");
             System.out.println("2. Hien thi oto");
@@ -101,25 +102,25 @@ public class PhuongTienController {
             boolean isFind = false;
             switch (choice) {
                 case 1:
-                    for (int i = 0; i < phuongTiens.length; i++) {
-                        if (phuongTiens[i] instanceof XeTai) {
-                            System.out.println(phuongTiens[i]);
+                    for (int i = 0; i < phuongTiens.size(); i++) {
+                        if (phuongTiens.get(i) instanceof XeTai) {
+                            System.out.println(phuongTiens.get(i));
                             isFind = true;
                         }
                     }
                     break;
                 case 2:
-                    for (int i = 0; i < phuongTiens.length; i++) {
-                        if (phuongTiens[i] instanceof Oto) {
-                            System.out.println(phuongTiens[i]);
+                    for (int i = 0; i < phuongTiens.size(); i++) {
+                        if (phuongTiens.get(i) instanceof Oto) {
+                            System.out.println(phuongTiens.get(i));
                             isFind = true;
                         }
                     }
                     break;
                 case 3:
-                    for (int i = 0; i < phuongTiens.length; i++) {
-                        if (phuongTiens[i] instanceof XeMay) {
-                            System.out.println(phuongTiens[i]);
+                    for (int i = 0; i < phuongTiens.size(); i++) {
+                        if (phuongTiens.get(i) instanceof XeMay) {
+                            System.out.println(phuongTiens.get(i));
                             isFind = true;
                         }
                     }

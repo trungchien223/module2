@@ -5,36 +5,33 @@ import quan_ly_phuong_tien_giao_thong.model.PhuongTien;
 import quan_ly_phuong_tien_giao_thong.model.XeMay;
 import quan_ly_phuong_tien_giao_thong.model.XeTai;
 
+import java.util.ArrayList;
+
 public class PhuongTienRepository implements IPhuongTienRepository {
-    private static final PhuongTien[] phuongTienList = new PhuongTien[10];
+    private static final ArrayList<PhuongTien> phuongTienList = new ArrayList<>();
 
     static {
-        phuongTienList[0] = new XeTai("43C-111.11", "Hyundai", 2020, "Huy", 3.5);
-        phuongTienList[1] = new Oto("29A-222.22", "Toyota", 2019, "Chien", 5, "Du lịch");
-        phuongTienList[2] = new XeMay("77B1-333.33", "Yamaha", 2021, "Vuong", 110);
-        phuongTienList[3] = new Oto("73B1-333.33", "Lamborghini", 2021, "Vinh", 6, "The thao");
+        phuongTienList.add(new XeTai("43C-111.11", "Hyundai", 2020, "Huy", 3.5));
+        phuongTienList.add(new Oto("29A-222.22", "Toyota", 2019, "Chien", 5, "Du lịch"));
+        phuongTienList.add(new XeMay("77B1-333.33", "Yamaha", 2021, "Vuong", 110));
+        phuongTienList.add(new Oto("73B1-333.33", "Lamborghini", 2021, "Vinh", 6, "Thể thao"));
     }
 
     @Override
-    public PhuongTien[] findAll() {
+    public ArrayList<PhuongTien> findAll() {
         return phuongTienList;
     }
 
     @Override
     public void add(PhuongTien phuongTien) {
-        for (int i = 0; i < phuongTienList.length; i++) {
-            if (phuongTienList[i] == null) {
-                phuongTienList[i] = phuongTien;
-                break;
-            }
-        }
+        phuongTienList.add(phuongTien);
     }
 
     @Override
     public PhuongTien findByBienSo(String bienSo) {
-        for (int i = 0; i < phuongTienList.length; i++) {
-            if (phuongTienList[i] != null && phuongTienList[i].getBienKiemSoat().equals(bienSo)) {
-                return phuongTienList[i];
+        for (PhuongTien pt : phuongTienList) {
+            if (pt.getBienKiemSoat().equals(bienSo)) {
+                return pt;
             }
         }
         return null;
@@ -42,15 +39,11 @@ public class PhuongTienRepository implements IPhuongTienRepository {
 
     @Override
     public void delete(String bienSo) {
-        for (int i = 0; i < phuongTienList.length; i++) {
-            if (phuongTienList[i] != null && phuongTienList[i].getBienKiemSoat().equals(bienSo)) {
-                for (int j = i; j < phuongTienList.length - 1; j++) {
-                    phuongTienList[j] = phuongTienList[j + 1];
-                }
-                phuongTienList[phuongTienList.length - 1] = null;
+        for (int i = 0; i < phuongTienList.size(); i++) {
+            if (phuongTienList.get(i).getBienKiemSoat().equals(bienSo)) {
+                phuongTienList.remove(i);
                 break;
             }
         }
     }
-
 }

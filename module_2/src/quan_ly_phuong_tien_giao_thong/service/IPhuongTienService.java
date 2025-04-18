@@ -2,8 +2,10 @@ package quan_ly_phuong_tien_giao_thong.service;
 
 import quan_ly_phuong_tien_giao_thong.model.PhuongTien;
 
+import java.util.ArrayList;
+
 public interface IPhuongTienService {
-    PhuongTien[] findAll();
+    ArrayList<PhuongTien> findAll();
 
     void delete(String bienSo);
 
