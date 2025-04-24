@@ -1,34 +1,59 @@
 package ss12.bai_tap.repository;
 
-
+import ss12.bai_tap.ReadAndWriteFile;
 import ss12.bai_tap.comparator.SortByPriceAscending;
 import ss12.bai_tap.comparator.SortByPriceDescending;
 import ss12.bai_tap.model.Product;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class ProductRepository implements IProductRepository {
-    private List<Product> productList = new ArrayList<>();
+    private static final String FILE_PATH = "module_2/src/ss12/bai_tap/data/products.csv";
+
+    private List<Product> productList;
 
     public ProductRepository() {
-        productList.add(new Product(1, "Iphone 15", 29999));
-        productList.add(new Product(2, "Samsung Galaxy S23", 25999));
-        productList.add(new Product(3, "Xiaomi Redmi Note 13", 9999));
+        this.productList = loadFromFile(); // Load danh sách sản phẩm khi khởi tạo
+    }
+
+    private List<Product> loadFromFile() {
+        List<String> lineList = ReadAndWriteFile.readFileCSV(FILE_PATH);
+        List<Product> products = new ArrayList<>();
+        for (String line : lineList) {
+            String[] parts = line.split(",");
+            if (parts.length == 3) {
+                try {
+                    int id = Integer.parseInt(parts[0]);
+                    String name = parts[1];
+                    double price = Double.parseDouble(parts[2]);
+                    products.add(new Product(id, name, price));
+                } catch (NumberFormatException e) {
+                    System.out.println("Lỗi định dạng dữ liệu: " + line);
+                }
+            }
+        }
+        return products;
+    }
+
+    private void saveToFile() {
+        List<String> lineList = new ArrayList<>();
+        for (Product product : productList) {
+            lineList.add(product.getId() + "," + product.getName() + "," + product.getPrice());
+        }
+        ReadAndWriteFile.writeFileCSV(FILE_PATH, lineList, false); // Ghi đè file
     }
 
     @Override
-
     public List<Product> findAll() {
         return productList;
     }
 
-
     @Override
     public void add(Product product) {
         productList.add(product);
+        saveToFile();
     }
 
     @Override
@@ -37,6 +62,7 @@ public class ProductRepository implements IProductRepository {
             if (p.getId() == id) {
                 p.setName(newName);
                 p.setPrice(newPrice);
+                saveToFile();
                 return;
             }
         }
@@ -47,6 +73,7 @@ public class ProductRepository implements IProductRepository {
         for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).getId() == id) {
                 productList.remove(i);
+                saveToFile();
                 return;
             }
         }
@@ -56,7 +83,7 @@ public class ProductRepository implements IProductRepository {
     public List<Product> searchByName(String name) {
         List<Product> result = new ArrayList<>();
         for (Product p : productList) {
-            if (p.getName().equals(name)) {
+            if (p.getName().equalsIgnoreCase(name)) {
                 result.add(p);
             }
         }
@@ -66,10 +93,12 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void sortByPriceAscending() {
         Collections.sort(productList, new SortByPriceAscending());
+        saveToFile();
     }
 
     @Override
     public void sortByPriceDescending() {
         Collections.sort(productList, new SortByPriceDescending());
+        saveToFile();
     }
 }

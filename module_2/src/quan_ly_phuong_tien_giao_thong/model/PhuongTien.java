@@ -52,4 +52,9 @@ public abstract class PhuongTien {
                 ", Nam san xuat: " + getNamSanXuat() +
                 ", Chu so huu: " + getChuSoHuu();
     }
+
+    public String toCSV() {
+        return bienKiemSoat + "," + hangSanXuat + "," + namSanXuat + "," + chuSoHuu;
+    }
+
 }

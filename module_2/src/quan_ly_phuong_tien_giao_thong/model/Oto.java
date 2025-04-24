@@ -32,4 +32,9 @@ public class Oto extends PhuongTien {
                 ", So cho ngoi: " + soChoNgoi +
                 ", Kieu xe: " + kieuXe;
     }
+
+    @Override
+    public String toCSV() {
+        return super.toCSV() + "," + soChoNgoi + "," + kieuXe;
+    }
 }

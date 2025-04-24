@@ -21,4 +21,10 @@ public class XeTai extends PhuongTien {
         return super.toString() +
                 ", Trong tai: " + trongTai;
     }
+
+    @Override
+    public String toCSV() {
+        return super.toCSV() + "," + trongTai;
+    }
+
 }

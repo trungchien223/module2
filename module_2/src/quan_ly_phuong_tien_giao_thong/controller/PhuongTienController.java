@@ -8,7 +8,7 @@ import quan_ly_phuong_tien_giao_thong.service.IPhuongTienService;
 import quan_ly_phuong_tien_giao_thong.service.PhuongTienService;
 import quan_ly_phuong_tien_giao_thong.view.View;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PhuongTienController {
@@ -17,28 +17,33 @@ public class PhuongTienController {
 
     public static void main(String[] args) {
         while (true) {
-            System.out.println(" MENU QUẢN LÝ PHƯƠNG TIỆN ");
-            System.out.println("1. Thêm mới phương tiện");
-            System.out.println("2. Hiển thị phương tiện");
-            System.out.println("3. Xóa phương tiện");
-            System.out.println("4. Thoát");
-            System.out.print("Chọn: ");
-            int choice = Integer.parseInt(scanner.nextLine());
-            switch (choice) {
-                case 1:
-                    add();
-                    break;
-                case 2:
-                    display();
-                    break;
-                case 3:
-                    delete();
-                    break;
-                case 4:
-                    return;
-                default:
-                    System.out.println("Lựa chọn không hợp lệ.");
+            try {
+                System.out.println(" MENU QUẢN LÝ PHƯƠNG TIỆN ");
+                System.out.println("1. Thêm mới phương tiện");
+                System.out.println("2. Hiển thị phương tiện");
+                System.out.println("3. Xóa phương tiện");
+                System.out.println("4. Thoát");
+                System.out.print("Chọn: ");
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1:
+                        add();
+                        break;
+                    case 2:
+                        display();
+                        break;
+                    case 3:
+                        delete();
+                        break;
+                    case 4:
+                        return;
+                    default:
+                        System.out.println("Lựa chọn không hợp lệ.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("vui long nhap so nguyen");
             }
+
         }
     }
 
@@ -92,35 +97,38 @@ public class PhuongTienController {
     }
 
     private static void display() {
-        ArrayList<PhuongTien> phuongTiens = service.findAll();
         while (true) {
-            System.out.println("1. Hien thi xe tai");
-            System.out.println("2. Hien thi oto");
-            System.out.println("3. Hien thi xe may");
-            System.out.println("4. Quay ve");
+            System.out.println("1. Hiển thị xe tải");
+            System.out.println("2. Hiển thị ôtô");
+            System.out.println("3. Hiển thị xe máy");
+            System.out.println("4. Quay về");
+            System.out.print("Chọn: ");
             int choice = Integer.parseInt(scanner.nextLine());
             boolean isFind = false;
+
+            List<PhuongTien> phuongTiens = service.findAll();
+
             switch (choice) {
                 case 1:
-                    for (int i = 0; i < phuongTiens.size(); i++) {
-                        if (phuongTiens.get(i) instanceof XeTai) {
-                            System.out.println(phuongTiens.get(i));
+                    for (PhuongTien pt : phuongTiens) {
+                        if (pt instanceof XeTai) {
+                            System.out.println(pt);
                             isFind = true;
                         }
                     }
                     break;
                 case 2:
-                    for (int i = 0; i < phuongTiens.size(); i++) {
-                        if (phuongTiens.get(i) instanceof Oto) {
-                            System.out.println(phuongTiens.get(i));
+                    for (PhuongTien pt : phuongTiens) {
+                        if (pt instanceof Oto) {
+                            System.out.println(pt);
                             isFind = true;
                         }
                     }
                     break;
                 case 3:
-                    for (int i = 0; i < phuongTiens.size(); i++) {
-                        if (phuongTiens.get(i) instanceof XeMay) {
-                            System.out.println(phuongTiens.get(i));
+                    for (PhuongTien pt : phuongTiens) {
+                        if (pt instanceof XeMay) {
+                            System.out.println(pt);
                             isFind = true;
                         }
                     }
@@ -128,11 +136,14 @@ public class PhuongTienController {
                 case 4:
                     return;
                 default:
-                    System.out.println("Nhap lai");
+                    System.out.println("Lựa chọn không hợp lệ.");
+                    continue;
             }
+
             if (!isFind) {
-                System.out.println("khong ton tai");
+                System.out.println("Không tìm thấy phương tiện nào.");
             }
         }
     }
+
 }

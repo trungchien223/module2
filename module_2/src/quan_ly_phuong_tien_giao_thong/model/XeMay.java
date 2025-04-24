@@ -21,4 +21,10 @@ public class XeMay extends PhuongTien {
         return super.toString() +
                 ", Cong xuat: " + congXuat;
     }
+
+    @Override
+    public String toCSV() {
+        return super.toCSV() + "," + congXuat;
+    }
+
 }
