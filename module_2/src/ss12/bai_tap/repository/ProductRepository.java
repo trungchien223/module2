@@ -1,6 +1,7 @@
 package ss12.bai_tap.repository;
 
-import ss12.bai_tap.ReadAndWriteFile;
+import ss12.bai_tap.readandwritefile.ReadAndWriteFileCSV;
+import ss12.bai_tap.readandwritefile.ReadAndWriteFileBinary;
 import ss12.bai_tap.comparator.SortByPriceAscending;
 import ss12.bai_tap.comparator.SortByPriceDescending;
 import ss12.bai_tap.model.Product;
@@ -10,16 +11,18 @@ import java.util.Collections;
 import java.util.List;
 
 public class ProductRepository implements IProductRepository {
-    private static final String FILE_PATH = "module_2/src/ss12/bai_tap/data/products.csv";
+    private static final String CSV_FILE_PATH = "module_2/src/ss12/bai_tap/data/products.csv";
+    private static final String BINARY_FILE_PATH = "module_2/src/ss12/bai_tap/data/products.dat";
 
     private List<Product> productList;
 
     public ProductRepository() {
-        this.productList = loadFromFile(); // Load danh sách sản phẩm khi khởi tạo
+        this.productList = loadFromCSVFile();
     }
 
-    private List<Product> loadFromFile() {
-        List<String> lineList = ReadAndWriteFile.readFileCSV(FILE_PATH);
+    //  đọc từ file CSV
+    private List<Product> loadFromCSVFile() {
+        List<String> lineList = ReadAndWriteFileCSV.readFileCSV(CSV_FILE_PATH);
         List<Product> products = new ArrayList<>();
         for (String line : lineList) {
             String[] parts = line.split(",");
@@ -37,12 +40,20 @@ public class ProductRepository implements IProductRepository {
         return products;
     }
 
-    private void saveToFile() {
+    private List<Product> loadFromBinaryFile() {
+        return ReadAndWriteFileBinary.readFromFile(BINARY_FILE_PATH);
+    }
+
+    private void saveToCSVFile() {
         List<String> lineList = new ArrayList<>();
         for (Product product : productList) {
             lineList.add(product.getId() + "," + product.getName() + "," + product.getPrice());
         }
-        ReadAndWriteFile.writeFileCSV(FILE_PATH, lineList, false); // Ghi đè file
+        ReadAndWriteFileCSV.writeFileCSV(CSV_FILE_PATH, lineList, false);
+    }
+
+    private void saveToBinaryFile() {
+        ReadAndWriteFileBinary.writeToFile(productList, BINARY_FILE_PATH);
     }
 
     @Override
@@ -53,7 +64,8 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void add(Product product) {
         productList.add(product);
-        saveToFile();
+        saveToCSVFile();
+        saveToBinaryFile();
     }
 
     @Override
@@ -62,7 +74,8 @@ public class ProductRepository implements IProductRepository {
             if (p.getId() == id) {
                 p.setName(newName);
                 p.setPrice(newPrice);
-                saveToFile();
+                saveToCSVFile();
+                saveToBinaryFile();
                 return;
             }
         }
@@ -73,7 +86,8 @@ public class ProductRepository implements IProductRepository {
         for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).getId() == id) {
                 productList.remove(i);
-                saveToFile();
+                saveToCSVFile();
+                saveToBinaryFile();
                 return;
             }
         }
@@ -93,12 +107,14 @@ public class ProductRepository implements IProductRepository {
     @Override
     public void sortByPriceAscending() {
         Collections.sort(productList, new SortByPriceAscending());
-        saveToFile();
+        saveToCSVFile();
+        saveToBinaryFile();
     }
 
     @Override
     public void sortByPriceDescending() {
         Collections.sort(productList, new SortByPriceDescending());
-        saveToFile();
+        saveToCSVFile();
+        saveToBinaryFile();
     }
 }

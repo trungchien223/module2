@@ -1,19 +1,19 @@
-package ss12.bai_tap.model;
+package ss17.thuc_hanh.th_2;
 
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Student implements Serializable {
     private int id;
     private String name;
-    private double price;
+    private String address;
 
-    public Product() {
+    public Student() {
     }
 
-    public Product(int id, String name, double price) {
+    public Student(int id, String name, String address) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.address = address;
     }
 
     public int getId() {
@@ -32,20 +32,20 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", price=" + price +
+                ", address='" + address + '\'' +
                 '}';
     }
 }
