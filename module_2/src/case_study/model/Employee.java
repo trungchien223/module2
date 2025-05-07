@@ -41,34 +41,13 @@ public class Employee extends Person {
         this.salary = salary;
     }
 
-    public String toStringCSV() {
-        return super.toStringCSV() + "," + level + "," + position + "," + salary;
-    }
-
     @Override
     public String toString() {
         return super.toString() +
-                "{" +
                 "level='" + level + '\'' +
                 ", position='" + position + '\'' +
-                ", salary=" + salary +
-                '}';
-    }
-
-    public static Employee fromString(String line) {
-        String[] parts = line.split(",");
-        if (parts.length == 10) {
-            try {
-                double salary = Double.parseDouble(parts[9]);
-                return new Employee(
-                        parts[0], parts[1], parts[2], parts[3], parts[4],
-                        parts[5], parts[6], parts[7], parts[8], salary
-                );
-            } catch (NumberFormatException e) {
-                System.err.println("Lỗi định dạng lương: " + parts[9]);
-            }
-        }
-        return null;
+                ", salary=" + salary
+                ;
     }
 
 }

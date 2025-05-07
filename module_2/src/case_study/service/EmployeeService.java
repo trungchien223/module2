@@ -1,75 +1,189 @@
 package case_study.service;
 
 import case_study.model.Employee;
-import case_study.repository.EmployeeRepository;
 import case_study.repository.IEmployeeRepository;
+import case_study.repository.EmployeeRepository;
+import case_study.utils.EmployeeValidator;
+import case_study.utils.InvalidInputException;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeService implements IEmployeeService {
     private final IEmployeeRepository repository = new EmployeeRepository();
     private final Scanner scanner = new Scanner(System.in);
 
+    @Override
     public void display() {
-        List<Employee> list = repository.getAll();
-        for (Employee e : list) {
-            System.out.println(e.toString());
+        for (Employee e : repository.getAll()) {
+            System.out.println(e);
         }
     }
 
+    @Override
     public void add() {
-        System.out.print("ID: ");
-        String id = scanner.nextLine();
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
-        System.out.print("DOB: ");
-        String dob = scanner.nextLine();
-        System.out.print("Gender: ");
-        String gender = scanner.nextLine();
-        System.out.print("CMND: ");
-        String cmnd = scanner.nextLine();
-        System.out.print("Phone: ");
-        String phone = scanner.nextLine();
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
-        System.out.print("Level: ");
-        String level = scanner.nextLine();
-        System.out.print("Position: ");
-        String position = scanner.nextLine();
-        System.out.print("Salary: ");
-        double salary = Double.parseDouble(scanner.nextLine());
+        String id, name, dob, gender, idCard, phone, email, level, position;
+        double salary;
 
-        Employee employee = new Employee(id, name, dob, gender, cmnd, phone, email, level, position, salary);
+        while (true) {
+            try {
+                System.out.print("Nhập mã NV (NV-YYYY): ");
+                id = EmployeeValidator.validateEmployeeCode(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập tên NV: ");
+                name = EmployeeValidator.validateName(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập ngày sinh (dd/MM/yyyy): ");
+                dob = EmployeeValidator.validateBirthday(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        while (true) {
+            try {
+                System.out.print("Nhập giới tính: ");
+                gender = EmployeeValidator.validateGender();
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập CMND (phải đủ 9 hoặc 12 số): ");
+                idCard = EmployeeValidator.validateIdCard(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập số điện thoại: ");
+                phone = EmployeeValidator.validatePhone(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập lương: ");
+                salary = EmployeeValidator.validateSalary(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        while (true) {
+            try {
+                System.out.print("Nhập email: ");
+                email = EmployeeValidator.validateEmail(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.print("Nhập trình độ: ");
+        level = scanner.nextLine();
+
+        System.out.print("Nhập vị trí: ");
+        position = scanner.nextLine();
+
+        Employee employee = new Employee(id, name, dob, gender, idCard, phone, email, level, position, salary);
         repository.add(employee);
-        System.out.println("Employee add");
+        System.out.println("Đã thêm nhân viên thành công.");
     }
 
+    @Override
     public void edit() {
-        System.out.print("Enter ID to edit: ");
+        System.out.print("Nhập mã nhân viên cần sửa: ");
         String id = scanner.nextLine();
+        String name, dob, gender, idCard, phone, email, level, position;
+        double salary;
 
-        System.out.print("New Name: ");
-        String name = scanner.nextLine();
-        System.out.print("New DOB: ");
-        String dob = scanner.nextLine();
-        System.out.print("New Gender: ");
-        String gender = scanner.nextLine();
-        System.out.print("New CMND: ");
-        String cmnd = scanner.nextLine();
-        System.out.print("New Phone: ");
-        String phone = scanner.nextLine();
-        System.out.print("New Email: ");
-        String email = scanner.nextLine();
-        System.out.print("New Level: ");
-        String level = scanner.nextLine();
-        System.out.print("New Position: ");
-        String position = scanner.nextLine();
-        System.out.print("New Salary: ");
-        double salary = Double.parseDouble(scanner.nextLine());
+        while (true) {
+            try {
+                System.out.print("Nhập tên mới: ");
+                name = EmployeeValidator.validateName(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
-        Employee updated = new Employee(id, name, dob, gender, cmnd, phone, email, level, position, salary);
-        repository.update(id, updated);
-        System.out.println("Employee updated.");
+        while (true) {
+            try {
+                System.out.print("Nhập ngày sinh mới (dd/MM/yyyy): ");
+                dob = EmployeeValidator.validateBirthday(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.print("Nhập giới tính mới: ");
+        gender = scanner.nextLine();
+
+        while (true) {
+            try {
+                System.out.print("Nhập CMND mới: ");
+                idCard = EmployeeValidator.validateIdCard(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập số điện thoại mới: ");
+                phone = EmployeeValidator.validatePhone(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập lương mới: ");
+                salary = EmployeeValidator.validateSalary(scanner.nextLine());
+                break;
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.print("Nhập email mới: ");
+        email = scanner.nextLine();
+
+        System.out.print("Nhập trình độ mới: ");
+        level = scanner.nextLine();
+
+        System.out.print("Nhập vị trí mới: ");
+        position = scanner.nextLine();
+
+        Employee employee = new Employee(id, name, dob, gender, idCard, phone, email, level, position, salary);
+        repository.edit(id, employee);
+        System.out.println("Cập nhật nhân viên thành công.");
     }
 }

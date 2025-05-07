@@ -1,13 +1,16 @@
 package case_study.controller;
 
-import case_study.service.EmployeeService;
-import case_study.service.IEmployeeService;
+import case_study.view.EmployeeView;
 
 import java.util.Scanner;
 
 public class FuramaController {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final IEmployeeService service = new EmployeeService();
+    private static final EmployeeView employeeView = new EmployeeView();
+
+    private static void employeeMenu() {
+        employeeView.showMenu();
+    }
 
     public void displayMainMenu() {
         boolean exit = false;
@@ -39,7 +42,7 @@ public class FuramaController {
                         promotionMenu();
                         break;
                     case 6:
-                        System.out.println("Exiting the program");
+                        System.out.println("Exit the program");
                         exit = true;
                         break;
                     default:
@@ -50,42 +53,6 @@ public class FuramaController {
             }
 
         } while (!exit);
-    }
-
-    private static void employeeMenu() {
-        boolean back = false;
-        do {
-            System.out.println("---- EMPLOYEE MANAGEMENT ----");
-            System.out.println("1. Display list employees");
-            System.out.println("2. Add new employee");
-            System.out.println("3. Edit employee");
-            System.out.println("4. Return to main menu");
-            System.out.print("Enter your choice: ");
-            try {
-                int choice = Integer.parseInt(scanner.nextLine());
-                switch (choice) {
-                    case 1:
-                        System.out.println("Displaying employees");
-                        service.display();
-                        break;
-                    case 2:
-                        System.out.println("Adding employee");
-                        service.add();
-                        break;
-                    case 3:
-                        System.out.println("Editing employee");
-                        service.edit();
-                        break;
-                    case 4:
-                        back = true;
-                        break;
-                    default:
-                        System.out.println("Choose from 1 to 4.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a number.");
-            }
-        } while (!back);
     }
 
     private static void customerMenu() {
@@ -102,13 +69,13 @@ public class FuramaController {
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        System.out.println("Displaying customers");
+                        System.out.println("Display customers");
                         break;
                     case 2:
-                        System.out.println("Adding customer");
+                        System.out.println("Add customer");
                         break;
                     case 3:
-                        System.out.println("Editing customer");
+                        System.out.println("Edit customer");
                         break;
                     case 4:
                         back = true;
@@ -136,13 +103,13 @@ public class FuramaController {
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        System.out.println("Displaying facilities");
+                        System.out.println("Display facilities");
                         break;
                     case 2:
-                        System.out.println("Adding facility");
+                        System.out.println("Add facility");
                         break;
                     case 3:
-                        System.out.println("Displaying facilities needing maintenance");
+                        System.out.println("Display facilities needing maintenance");
                         break;
                     case 4:
                         back = true;
@@ -172,19 +139,19 @@ public class FuramaController {
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        System.out.println("Adding booking");
+                        System.out.println("Add booking");
                         break;
                     case 2:
-                        System.out.println("Displaying bookings");
+                        System.out.println("Display bookings");
                         break;
                     case 3:
-                        System.out.println("Creating contracts");
+                        System.out.println("Creat contracts");
                         break;
                     case 4:
-                        System.out.println("Displaying contracts");
+                        System.out.println("Display contracts");
                         break;
                     case 5:
-                        System.out.println("Editing contracts");
+                        System.out.println("Edit contracts");
                         break;
                     case 6:
                         back = true;
@@ -211,10 +178,10 @@ public class FuramaController {
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        System.out.println("Displaying customers using service");
+                        System.out.println("Display customers using service");
                         break;
                     case 2:
-                        System.out.println("Displaying customers getting vouchers");
+                        System.out.println("Display customers getting vouchers");
                         break;
                     case 3:
                         back = true;

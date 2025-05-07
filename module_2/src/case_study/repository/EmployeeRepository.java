@@ -8,58 +8,51 @@ import java.util.List;
 
 public class EmployeeRepository implements IEmployeeRepository {
     private static final String FILE_PATH = "module_2/src/case_study/data/employee.csv";
-    private final List<Employee> employeeList = new ArrayList<>();
-
-    public EmployeeRepository() {
-        loadFromFile();
-    }
 
     @Override
     public List<Employee> getAll() {
-        return employeeList;
+        List<String> lines = ReadAndWriteFile.readFromFile(FILE_PATH);
+        List<Employee> employees = new ArrayList<>();
+
+        for (String line : lines) {
+            String[] parts = line.split(",");
+            if (parts.length == 10) {
+                employees.add(new Employee(
+                        parts[0], parts[1], parts[2], parts[3],
+                        parts[4], parts[5], parts[6], parts[7],
+                        parts[8], Double.parseDouble(parts[9])
+                ));
+            }
+        }
+        return employees;
     }
 
     @Override
     public void add(Employee employee) {
-        employeeList.add(employee);
-        saveToFile();
-    }
-
-    @Override
-    public void update(String id, Employee updatedEmployee) {
-        for (int i = 0; i < employeeList.size(); i++) {
-            if (employeeList.get(i).getId().equals(id)) {
-                employeeList.set(i, updatedEmployee);
-                saveToFile();
-                return;
-            }
-        }
-    }
-
-    @Override
-    public void display() {
-        for (Employee e : employeeList) {
-            System.out.println(e);
-        }
-    }
-
-    private void loadFromFile() {
         List<String> lines = ReadAndWriteFile.readFromFile(FILE_PATH);
-        employeeList.clear();
-        for (String line : lines) {
-            Employee employee = Employee.fromString(line);
-            if (employee != null) {
-                employeeList.add(employee);
-            }
-        }
-    }
-
-    private void saveToFile() {
-        List<String> lines = new ArrayList<>();
-        for (Employee e : employeeList) {
-            lines.add(e.toString());
-        }
+        lines.add(toCsv(employee));
         ReadAndWriteFile.writeToFile(FILE_PATH, lines);
     }
 
+    @Override
+    public void edit(String id, Employee updated) {
+        List<Employee> list = getAll();
+        List<String> newLines = new ArrayList<>();
+
+        for (Employee e : list) {
+            if (e.getId().equals(id)) {
+                newLines.add(toCsv(updated));
+            } else {
+                newLines.add(toCsv(e));
+            }
+        }
+
+        ReadAndWriteFile.writeToFile(FILE_PATH, newLines);
+    }
+
+    private String toCsv(Employee e) {
+        return String.join(",", e.getId(), e.getName(), e.getDateOfBirth(), e.getGender(),
+                e.getIdCard(), e.getPhone(), e.getEmail(), e.getLevel(), e.getPosition(),
+                String.valueOf(e.getSalary()));
+    }
 }

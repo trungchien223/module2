@@ -1,4 +1,4 @@
-//package case_study.service;
-//
-//public interface ICustomerService extends Service {
-//}
+package case_study.service;
+
+public interface ICustomerService extends Service {
+}

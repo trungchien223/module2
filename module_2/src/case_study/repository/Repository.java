@@ -1,5 +1,12 @@
 package case_study.repository;
 
-public interface Repository {
-    void display();
+import java.util.List;
+
+public interface Repository<T> {
+    List<T> getAll();
+
+    void add(T t);
+
+    void edit(String id, T t);
+    
 }

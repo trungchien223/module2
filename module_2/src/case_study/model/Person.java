@@ -1,6 +1,6 @@
 package case_study.model;
 
-public class Person {
+public abstract class Person {
     private String id;
     private String name;
     private String dateOfBirth;
@@ -79,21 +79,16 @@ public class Person {
         this.email = email;
     }
 
-    public String toStringCSV() {
-        return id + "," + name + "," + dateOfBirth + "," + gender + "," +
-                idCard + "," + phone + "," + email;
-    }
-
     @Override
     public String toString() {
-        return "Person{" +
+        return
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", gender='" + gender + '\'' +
-                ", idCard='" + idCard + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+                        ", name='" + name + '\'' +
+                        ", dateOfBirth='" + dateOfBirth + '\'' +
+                        ", gender='" + gender + '\'' +
+                        ", idCard='" + idCard + '\'' +
+                        ", phone='" + phone + '\'' +
+                        ", email='" + email + '\''
+                ;
     }
 }
